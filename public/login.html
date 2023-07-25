@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login trades</title>
+	<meta charset="UTF-8">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+ <!-- Additional CSS Files -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+	<link rel="stylesheet" href="assets/css/animated.css">
+	<link rel="stylesheet" href="assets/css/owl.css">
+	<script src="https://kit.fontawesome.com/58014bb435.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="util.css">
+	<link rel="stylesheet" type="text/css" href="login.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<!--===============================================================================================-->
+</head>
+<body>
+	<!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">
+                            <img style="width: 50%; height: 50%; margin-left: 50%; margin-top: 5%;" src="assets/images/logoHeader.png" alt="Trades icon">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="index.html" class="active">Inicio</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+<!-- ***** SECCION HOME ***** -->
+<div class="main-banner-login wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-lg-6 align-self-center">
+						<div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s"
+							data-wow-delay="1s">
+							<div class="row">
+								<div class="container-login100">
+									<form class="login100-form validate-form">
+										
+										
+										<span class="login100-form-title">
+											Inicia Sesión
+										</span>
+										<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+											<input class="input100" id="inputCorreo" type="text" name="email" placeholder="Email">
+											<span class="focus-input100"></span>
+											<span class="symbol-input100">
+												<i class="fa fa-envelope" aria-hidden="true"></i>
+											</span>
+										</div>
+					
+										<div class="wrap-input100 validate-input" data-validate = "Password is required">
+											<input class="input100" id="inputPass" type="password" name="pass" placeholder="Password">
+											<span class="focus-input100"></span>
+											<span class="symbol-input100">
+												<i class="fa fa-lock" aria-hidden="true"></i>
+											</span>
+										</div>
+										
+										<div class="container-login100-form-btn">
+											<button type="button" onclick="iniciarsesion()" class="login100-form-btn">
+												Login
+											</button>
+										</div>
+					
+										<div class="text-center p-t-12">
+											<span class="txt1">
+												Olvide la 
+											</span>
+											<a class="txt2" href="#" onclick="resetPass()">
+												contraseña?
+											</a>
+											<span class="txt1">
+												Envío del 
+											</span>
+											<a class="txt2" href="#" onclick="CorreoVerificacion()">
+												correo de verificación
+											</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ***** SECCION HOME END ***** -->
+
+	
+	
+	<script >
+        let Url="http://localhost:3000/"
+            function iniciarsesion(){
+                let correo=document.getElementById("inputCorreo").value;
+                let pass=document.getElementById("inputPass").value;
+                $.ajax({
+                  url:Url + "inicio",
+                  type: "POST",
+				  data: {"user":correo,"pass":pass},
+                  success: function(result){
+                    console.log("TODO BIEN!")
+                    console.log(result)
+                    sessionStorage['UserName']=result.correo;
+                    sessionStorage['id']=result.id;
+                    window.location.href="PaginaPerfil.html";
+                  },
+                  error: function(error){
+					if(error.status==401){
+						window.alert("Debe verificar su correo, revise su bandeja de entrada o en SPAM, también puede solicitar un nuevo correo de verificación.")
+					}else if(error.status==404){
+						var opcion = confirm("El usuario ya esta registrado como cliente, ¿desea registrarlo también como socio? ");
+						if (opcion == true) {
+							//console.log(error.responseJSON)
+							//alert("Verificar que se envien los datos en el error")
+							sessionStorage['correoNuevo']=error.responseJSON.correo;
+							sessionStorage['idnuevo']=error.responseJSON.id;
+							window.location.href="registro2.html";
+						}
+					}else if(error.responseJSON=="Firebase: Error (auth/wrong-password)."){
+						window.alert("Contraseña incorrecta")
+					}else if(error.responseJSON=="Firebase: Error (auth/user-not-found)."){
+						window.alert("Usuario incorrecto.")
+					}else{
+						window.alert("Error al iniciar sesión");
+						
+					}
+                    console.log("ENTRO AL ERROR")
+                    console.log(error)
+                  }
+                });
+                //if(correo=="esthuardo12@gmail.com" && pass=="123"){
+                    //sessionStorage['UserName']=="Estuardo Gómez";
+                   // window.location.href="principal.html";
+               // }else{
+                   // window.alert("Correo o contraseña incorrectos");
+               // }
+                //window.alert("Se inició sesión")
+                
+            }
+            function CorreoVerificacion(){
+				var correo = window.prompt("¿Cuál es su correo electrónico?")
+				var pass = window.prompt("¿Cuál es su contraseña?")
+				re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+				if(re.exec(correo)){
+					//CORREO ELECTRÓNICO VALIDO
+					$.ajax({
+					url:Url + "enviarcodigo",
+					type: "POST",
+					data: {"user":correo, "pass":pass},
+					success: function(result){
+						console.log("TODO BIEN!")
+						console.log(result)
+						alert("CORREO ENVIADO CON EXITO!(Verifique su bandeja de entrada o en SPAM")
+					},
+					error: function(error){
+						if(error.responseJSON=="Firebase: Error (auth/user-not-found)."){
+							alert("Usuario no encontrado!")
+						}else if(error.responseJSON=="Firebase: Error (auth/wrong-password)."){
+							alert("Contraseña incorrecta!")
+						}else{
+							alert("Hubo un error al enviarle el correo")
+						}
+					}
+					});
+				}else{
+					alert("Ingrese un correo valido!")
+				}
+			}
+			function resetPass(){
+				var correo = window.prompt("¿Cuál es su correo electrónico?")
+				re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+				if(re.exec(correo)){
+					//CORREO ELECTRÓNICO VALIDO
+					$.ajax({
+					url:Url + "resetPass",
+					type: "POST",
+					data: {"user":correo},
+					success: function(result){
+						console.log("TODO BIEN!")
+						console.log(result)
+						alert("CORREO ENVIADO CON EXITO!(Verifique su bandeja de entrada o en SPAM")
+					},
+					error: function(error){
+						if(error.responseJSON=="Firebase: Error (auth/user-not-found)."){
+							alert("Usuario no encontrado!")
+						}else{
+							alert("Hubo un error al enviarle el correo")
+						}
+					}
+					});
+				}else{
+					alert("Ingrese un correo valido!")
+				}
+			}
+			sessionStorage['correoNuevo']="";
+			sessionStorage['idnuevo']=""
+            if(sessionStorage['UserName']!=null && sessionStorage['UserName']!=""){
+                //console.log("No tiene variable de sesion");
+				console.log("SESION INICIADA")
+              	window.location.replace("PaginaPerfil.html")
+            }
+			console.log("LLEGUE AL LOGIN")
+	</script>
+  <!-- Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/animation.js"></script>
+  <script src="assets/js/imagesloaded.js"></script>
+  <script src="assets/js/popup.js"></script>
+  <script src="assets/js/custom.js"></script>
+</body>
+</html>

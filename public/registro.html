@@ -1,0 +1,162 @@
+<!Doctype HTML>
+<html lang="en">
+    <HEAD>
+      <meta charset="utf-8">
+      <title>Registro</title>
+
+      <!-- Icons font CSS-->
+      <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+      <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+      <!-- Font special for pages-->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <!-- Main CSS-->
+      <link href="registro.css" rel="stylesheet" media="all">
+      <!-- Additional CSS Files -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
+	<link rel="stylesheet" href="assets/css/animated.css">
+	<link rel="stylesheet" href="assets/css/owl.css">
+	<script src="https://kit.fontawesome.com/58014bb435.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="util.css">
+	<link rel="stylesheet" type="text/css" href="login.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!--===============================================================================================-->
+    </HEAD>
+    <BODY >
+        <!-- ***** SECCION HOME ***** -->
+<div class="main-banner-login wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+            <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="card card-4" style="background-color: rgba(240, 248, 255, 0.336)">
+                    <div class="card-body">
+                        <h2 class="title">Registro a Trades</h2>
+                        <form onsubmit="return registrar()" method="post">
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Nombre</label>
+                                        <input id="inputNombre" class="input--style-4" type="text" name="first_name"required>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Apellido</label>
+                                        <input id="inputApellido" class="input--style-4" type="text" name="last_name"required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Correo electrónico</label>
+                                        <input id="inputCorreo" class="input--style-4" type="email" name="email"required>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Número de teléfono</label>
+                                        <input id="inputTelefono" class="input--style-4" type="text" name="phone"required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <label class="label">Dirección</label>
+                                        <input id="inputDireccion" class="input--style-4" type="text" name="direccion"required>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">DPI</label>
+                                    <input id="inputDPI" class="input--style-4" type="text" name="DPI"pattern="\d{13}$" 
+                                    title="Ingresar formato correcto de DPI"required>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Contraseña</label>
+                                    <input id="inputPass1" class="input--style-4" type="password" name="pass1"pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" 
+                                    title="La contraseña debe tener más de 8 caracteres que incluyen mayúscula, minúscula y un dígito."required>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Confirmar contraseña</label>
+                                    <input id="inputPass2" class="input--style-4" type="password" name="pass2" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" 
+                                    title="La contraseña debe tener más de 8 caracteres que incluyen mayúscula, minúscula y un dígito."required>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="p-t-15">
+                                <button class="btn btn--radius-2 btn--blue" type="submit" >Registrar</button>
+                            </div>
+                        </form>
+                        <p id="respa"></p>
+                    </div>
+                </div>  
+		</div>
+</div>
+<!-- ***** SECCION HOME END ***** -->
+
+	
+        <script>
+          let Url="http://localhost:3000/"
+          function registrar(){
+            let nombre=document.getElementById("inputNombre").value;
+            let apellido=document.getElementById("inputApellido").value;
+            let correo=document.getElementById("inputCorreo").value;
+            let telefono=document.getElementById("inputTelefono").value;
+            let direccion=document.getElementById("inputDireccion").value;
+            let dpi=document.getElementById("inputDPI").value;
+            let pass1=document.getElementById("inputPass1").value;
+            let pass2=document.getElementById("inputPass2").value;
+            if(pass1!=pass2){
+                alert("LAS CONTRASEÑAS NO COINCIDEN");
+                return false;
+            }else{
+                $.ajax({
+                url:Url + "registrar",
+                type: "POST",
+                data: {"user": correo,"pass":pass1,"nombre":nombre,"apellido":apellido,"telefono":telefono,"direccion":direccion,"dpi":dpi},
+                success: function(result){
+                    alert('Usuario registrado con éxito')
+                    console.log(result)
+                    window.location.replace("login.html")
+                },
+                error: function(error){
+                    if(error.responseText=="\"Firebase: Error (auth/email-already-in-use).\""){
+                        alert("Su correo ya se encuentra registrado!")
+                    }else{
+                        alert('Error al registrar el usuario!')
+                    }
+                    console.log(error)
+                    
+                } 
+            });
+            //$("#respa").html("");
+            //alert("TERMINO REGISTRO");
+            }
+            return false;
+            
+          } 
+          if(sessionStorage['UserName']!=null && sessionStorage['UserName']!=""){
+                //console.log("No tiene variable de sesion");
+              window.location.replace("principal.html")
+            }
+        </script>
+        <!-- Scripts -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/owl-carousel.js"></script>
+        <script src="assets/js/animation.js"></script>
+        <script src="assets/js/imagesloaded.js"></script>
+        <script src="assets/js/popup.js"></script>
+        <script src="assets/js/custom.js"></script>
+    </BODY>
+</HTML>
+
+<!-- Nombre, telefono, direccion, horario, categoria, fotos-->
